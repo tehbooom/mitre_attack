@@ -1,0 +1,14 @@
+{
+  "id": "mitreAttack",
+  "version": "1.0.0",
+  "kibanaVersion": "kibana",
+  "owner": {
+    "name": "Alec Carpenter",
+    "githubTeam": ""
+  },
+  "description": "MITRE ATT&amp;CK Navigator",
+  "server": true,
+  "ui": true,
+  "requiredPlugins": ["navigation"],
+  "optionalPlugins": []
+}

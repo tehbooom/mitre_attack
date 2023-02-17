@@ -1,0 +1,7 @@
+{
+  "prefix": "mitreAttack",
+  "paths": {
+    "mitreAttack": "."
+  },
+  "translations": ["translations/ja-JP.json"]
+}
