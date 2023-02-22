@@ -11,12 +11,6 @@ jobs:
     name: Build plugin for publish
     runs-on: ubuntu-latest
     steps:
-      
-      - uses: actions/checkout@v2
-      - name: Set output
-        id: vars
-        run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
-
       - name: Checkout kibana repo
         uses: actions/checkout@v3
         with:
@@ -26,7 +20,7 @@ jobs:
       - name: Checkout Git repository
         uses: actions/checkout@v3
         with:
-          path: kibana/plugins/
+          path: plugins/
 
       - name: Enable node version
         uses: actions/setup-node@v3
@@ -34,14 +28,14 @@ jobs:
           node-version: 16.18.1
 
       - name: Debug 
-        run: ls -la
+        run: ls -l plugins/
 
       - name: Install dependencies
-        working-directory: kibana/plugins/mitre_attack/
+        working-directory: plugins/mitre_attack/
         run: yarn kbn bootstrap
 
       - name: Install dependencies
-        working-directory: kibana/plugins/mitre_attack/ 
+        working-directory: plugins/mitre_attack/ 
         run: yarn plugin-helpers build --kibana-version 8.6 # Change this to a variable for each new version
       
       - name: release
@@ -62,7 +56,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./kibana/plugins/mitre_attack/build/mitreAttack-8.6.zip # Change this to a variable for each new version
-          asset_name: mitreAttack-${{ steps.vars.outputs.tag }}.zip # Change this to a variable for each new version
+          asset_path: plugins/mitre_attack/build/mitreAttack-8.6.zip # Change this to a variable for each new version
+          asset_name: mitreAttack-8.6.zip # Change this to a variable for each new version
           asset_content_type: application/zip
 
