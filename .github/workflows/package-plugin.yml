@@ -1,0 +1,59 @@
+name: Publish Plugin for Kibana
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: Build plugin for publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout kibana repo
+        uses: actions/checkout@v3
+        with:
+          repository: elastic/kibana
+          ref: 8.6 # Change this to a variable for each new version
+
+      - name: Checkout Git repository
+        uses: actions/checkout@v3
+        with:
+          path: kibana/plugins/
+
+      - name: Enable node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.18.1
+
+      - name: Install dependencies
+        working-directory: kibana/plugins/mitre_attack/
+        run: yarn kbn bootstrap
+
+      - name: Install dependencies
+        working-directory: kibana/plugins/mitre_attack/ 
+        run: yarn plugin-helpers build --kibana-version 8.6 # Change this to a variable for each new version
+      
+      - name: release
+        uses: actions/create-release@v1
+        id: create_release
+        with:
+          draft: false
+          prerelease: false
+          release_name: mitre_attack-8.6 # Change this to a variable for each new version
+          tag_name: ${{ github.ref }}
+          body_path: CHANGELOG.md
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: upload zip
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./kibana/plugins/mitre_attack/build/mitreAttack-8.6.zip # Change this to a variable for each new version
+          asset_name: mitreAttack-8.6.zip # Change this to a variable for each new version
+          asset_content_type: application/zip
+
