@@ -25,10 +25,7 @@ jobs:
       - name: Enable node version
         uses: actions/setup-node@v3
         with:
-          node-version: 16.18.1
-
-      - name: Debug 
-        run: ls plugins
+          node-version: 16.19.1
 
       - name: Install dependencies
         working-directory: plugins/mitre_attack/
