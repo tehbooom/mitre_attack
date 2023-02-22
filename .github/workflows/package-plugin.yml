@@ -11,6 +11,12 @@ jobs:
     name: Build plugin for publish
     runs-on: ubuntu-latest
     steps:
+      
+      - uses: actions/checkout@v2
+      - name: Set output
+        id: vars
+        run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
+
       - name: Checkout kibana repo
         uses: actions/checkout@v3
         with:
@@ -54,6 +60,6 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./kibana/plugins/mitre_attack/build/mitreAttack-8.6.zip # Change this to a variable for each new version
-          asset_name: mitreAttack-8.6.zip # Change this to a variable for each new version
+          asset_name: mitreAttack-${{ steps.vars.outputs.tag }}.zip # Change this to a variable for each new version
           asset_content_type: application/zip
 
