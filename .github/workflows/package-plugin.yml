@@ -35,22 +35,12 @@ jobs:
         working-directory: plugins/mitre_attack/ 
         run: yarn plugin-helpers build --kibana-version 8.6 # Change this to a variable for each new version
       
-      - name: release
-        uses: actions/create-release@v1
-        id: create_release
+      - uses: "marvinpinto/action-automatic-releases@latest"
         with:
-          release_name: mitre_attack-8.6 # Change this to a variable for each new version
-          tag_name: ${{ github.ref }}
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-
-      - name: upload zip
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: plugins/mitre_attack/build/mitreAttack-8.6.zip # Change this to a variable for each new version
-          asset_name: mitreAttack-8.6.zip # Change this to a variable for each new version
-          asset_content_type: application/zip
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "First release"
+          files: |
+            plugins/mitre_attack/build/mitreAttack-8.6.zip 
 
