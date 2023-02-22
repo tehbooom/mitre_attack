@@ -16,6 +16,7 @@ jobs:
         with:
           repository: elastic/kibana
           ref: 8.6 # Change this to a variable for each new version
+          path: kibana
 
       # - name: Checkout Git repository
       #   uses: actions/checkout@v3
