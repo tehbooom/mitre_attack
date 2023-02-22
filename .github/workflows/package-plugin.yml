@@ -11,14 +11,14 @@ jobs:
     name: Build plugin for publish
     runs-on: ubuntu-latest
     steps:
-      # - name: Checkout kibana repo
-      #   uses: actions/checkout@v3
-      #   with:
-      #     repository: elastic/kibana
-      #     ref: 8.6 # Change this to a variable for each new version
-
-      - name: Checkout Git repository
+      - name: Checkout kibana repo
         uses: actions/checkout@v3
+        with:
+          repository: elastic/kibana
+          ref: 8.6 # Change this to a variable for each new version
+
+      # - name: Checkout Git repository
+      #   uses: actions/checkout@v3
 
       - name: Enable node version
         uses: actions/setup-node@v3
