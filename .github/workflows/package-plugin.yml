@@ -2,8 +2,9 @@ name: Publish Plugin for Kibana
 
 on:
   push:
-    tags:
-      - 'v*.*.*'
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
   build:
