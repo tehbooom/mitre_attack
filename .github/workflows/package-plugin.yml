@@ -16,10 +16,11 @@ jobs:
         with:
           repository: elastic/kibana
           ref: 8.6 # Change this to a variable for each new version
-          path: kibana
 
-      # - name: Checkout Git repository
-      #   uses: actions/checkout@v3
+      - name: Checkout Git repository
+        uses: actions/checkout@v3
+        with:
+          path: plugins
 
       - name: Enable node version
         uses: actions/setup-node@v3
@@ -27,7 +28,7 @@ jobs:
           node-version: 16.18.1
 
       - name: Debug 
-        run: ls 
+        run: ls plugins
 
       - name: Install dependencies
         working-directory: plugins/mitre_attack/
