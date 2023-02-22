@@ -28,10 +28,13 @@ jobs:
         with:
           path: kibana/plugins/
 
-      - name: Enable node
+      - name: Enable node version
         uses: actions/setup-node@v3
         with:
           node-version: 16.18.1
+
+      - name: Debug 
+        run: ls -la
 
       - name: Install dependencies
         working-directory: kibana/plugins/mitre_attack/
