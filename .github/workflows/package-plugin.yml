@@ -58,13 +58,13 @@ jobs:
     name: tag and release
     needs: build
     runs-on: ubuntu-latest
-    env:
-          KIBANA_VER: ${{ needs.build.outputs.KIBANA_VER }}
     steps:
+      
       - name: Download a the plugin
         uses: actions/download-artifact@v3
         with:
-          name: kibana-{{ env.$KIBANA_VER }}-plugin
+          name: kibana-${{ needs.build.outputs.KIBANA_VER }}-plugin
+
       
       - name: Bump version and push tag
         id: tag_version
@@ -80,4 +80,4 @@ jobs:
           prerelease: true
           name: Release ${{ steps.tag_version.outputs.new_tag }}
           body: ${{ steps.tag_version.outputs.changelog }}
-          artifacts: mitreAttack-{{ env.$KIBANA_VER }}.zip 
+          artifacts: mitreAttack-${{ needs.build.outputs.KIBANA_VER }}.zip 
