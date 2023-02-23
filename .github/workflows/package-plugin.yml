@@ -28,7 +28,7 @@ jobs:
         run: echo "KIBANA_VERSION=$( git tag | sort -V | tail -1 )" >> $GITHUB_OUTPUT
 
       - name: Set branch to latest kibana version
-        run: git checkout $( steps.kibana.KIBANA_VERSION )
+        run: git checkout ${{ steps.kibana.outputs.KIBANA_VERSION }}
 
       - name: Set node version var
         run: echo "NODE_VERSION=$( cat .node-version )" >> $GITHUB_ENV
@@ -44,15 +44,15 @@ jobs:
 
       - name: Create the plugin for Kibana
         working-directory: plugins/mitre_attack/ 
-        run: yarn plugin-helpers build --kibana-version $KIBANA_VERSION
+        run: yarn plugin-helpers build --kibana-version ${{ steps.kibana.outputs.KIBANA_VERSION }}
 
       - name: Archive plugin
         uses: actions/upload-artifact@v3
         with:
-          name: kibana-${{ steps.kibana.KIBANA_VERSION }}-plugin
+          name: kibana-${{ steps.kibana.outputs.KIBANA_VERSION }}-plugin
           retention-days: 1
           path: |
-            plugins/mitre_attack/build/mitreAttack-${{ steps.kibana.KIBANA_VERSION }}.zip 
+            plugins/mitre_attack/build/mitreAttack-${{ steps.kibana.outputs.KIBANA_VERSION }}.zip 
 
   release:
     name: tag and release
