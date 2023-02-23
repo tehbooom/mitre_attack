@@ -49,10 +49,10 @@ jobs:
       - name: Archive plugin
         uses: actions/upload-artifact@v3
         with:
-          name: kibana-$( steps.kibana.KIBANA_VERSION )-plugin
+          name: kibana-${{ steps.kibana.KIBANA_VERSION }}-plugin
           retention-days: 1
           path: |
-            plugins/mitre_attack/build/mitreAttack-$( steps.kibana.KIBANA_VERSION ).zip 
+            plugins/mitre_attack/build/mitreAttack-${{ steps.kibana.KIBANA_VERSION }}.zip 
 
   release:
     name: tag and release
