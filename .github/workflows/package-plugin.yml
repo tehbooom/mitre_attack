@@ -2,45 +2,57 @@ name: Publish Plugin for Kibana
 
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    tags:
+      - "v*"
 
 jobs:
   build:
     name: Build plugin for publish
     runs-on: ubuntu-latest
     steps:
+      - name: Set version var
+        id: vars
+        run: echo "TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
       - name: Checkout kibana repo
         uses: actions/checkout@v3
         with:
           repository: elastic/kibana
-          ref: 8.6 # Change this to a variable for each new version
+          ref: master
 
-      - name: Checkout Git repository
+      - name: Checkout MITRE_ATTACK repo
         uses: actions/checkout@v3
         with:
           path: plugins/mitre_attack
 
+      - name: Set latest kibana version var
+        run: echo "KIBANA_VERSION=$( git tag | sort -V | tail -1 )" >> $GITHUB_ENV
+
+      - name: Set node version var
+        run: echo "NODE_VERSION=$( cat .node-version )" >> $GITHUB_ENV
+
+      - name: Set branch to latest kibana version
+        run: git checkout $KIBANA_VERSION
+
       - name: Enable node version
         uses: actions/setup-node@v3
         with:
-          node-version: 16.19.1
+          node-version: $NODE_VERSION
 
-      - name: Install dependencies
+      - name: Install node_modules and setup the dependencies
         working-directory: plugins/mitre_attack/
         run: yarn kbn bootstrap
 
-      - name: Install dependencies
+      - name: Create the plugin for Kibana
         working-directory: plugins/mitre_attack/ 
-        run: yarn plugin-helpers build --kibana-version 8.6 # Change this to a variable for each new version
+        run: yarn plugin-helpers build --kibana-version $KIBANA_VERSION
       
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "latest"
-          prerelease: true
-          title: "First release"
+          automatic_release_tag: "$TAG"
+          prerelease: false
+          title: "Kibana MITRE Plugin $TAG"
           files: |
-            plugins/mitre_attack/build/mitreAttack-8.6.zip 
+            plugins/mitre_attack/build/mitreAttack-$KIBANA_VERSION.zip 
 
