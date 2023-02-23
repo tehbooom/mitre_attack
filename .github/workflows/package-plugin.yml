@@ -10,15 +10,12 @@ jobs:
     name: Build plugin for publish
     runs-on: ubuntu-latest
     steps:
-      - name: Set version var
-        id: vars
-        run: echo "TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
       - name: Checkout kibana repo
         uses: actions/checkout@v3
         with:
           repository: elastic/kibana
-          ref: main
+          fetch-depth: 0
 
       - name: Checkout MITRE_ATTACK repo
         uses: actions/checkout@v3
@@ -37,7 +34,7 @@ jobs:
       - name: Enable node version
         uses: actions/setup-node@v3
         with:
-          node-version: $NODE_VERSION
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Install node_modules and setup the dependencies
         working-directory: plugins/mitre_attack/
@@ -53,11 +50,13 @@ jobs:
         uses: mathieudutour/github-tag-action@v6.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          append_to_pre_release_tag: alpha
 
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
         with:
           tag: ${{ steps.tag_version.outputs.new_tag }}
+          prerelease: true
           name: Release ${{ steps.tag_version.outputs.new_tag }}
           body: ${{ steps.tag_version.outputs.changelog }}
-          artifacts: plugins/mitre_attack/build/mitreAttack-$KIBANA_VERSION.zip 
+          artifacts: plugins/mitre_attack/build/mitreAttack-{{ env.$KIBANA_VERSION }}.zip 
