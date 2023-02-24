@@ -1,19 +1,37 @@
-# mitreAttack
+# MITRE ATT&CK Kibana Plugin
 
-A Kibana plugin
+[MITRE ATT&CK Navigator](https://github.com/mitre-attack/attack-navigator) Plugin for Kibana
 
----
+Works with the most recent release of Kibana
 
-## Development
+## Install
 
-See the [kibana contributing guide](https://github.com/elastic/kibana/blob/main/CONTRIBUTING.md) for instructions setting up your development environment.
+`bin/kibana-plugin install https://github.com/tehbooom/mitre_attack/releases/download/v0.0.2/mitreAttack-v8.6.2.zip`
 
-## Scripts
+or
 
-<dl>
-  <dt><code>yarn kbn bootstrap</code></dt>
-  <dd>Execute this to install node_modules and setup the dependencies in your plugin and in Kibana</dd>
+`bin/kibana-plugin install file:///mitreAttack-v8.6.2.zip`
 
-  <dt><code>yarn plugin-helpers build</code></dt>
-  <dd>Execute this to create a distributable version of this plugin that can be installed in Kibana</dd>
-</dl>
+## Usage
+
+### Once installed simply log into Kibana and you will see a new kibana space called MITRE ATT&CK
+
+![image](docs/media/kibana_space.png)
+
+### Then create a new layer or import one
+
+![image](docs/media/mitre_home.png)
+
+### Use the navigator to plan your red/blue team exercise or visualize defense coverage!
+
+![image](docs/media/mitre_layer.png)
+
+## TODO
+
+- #8 Add pretty pictures
+- #9 Allow plugin to be used offline
+- #10 Create a layer based on ES query to a specific scenario, operation, or adversary
+
+## License
+
+The source code for this project is released under the GNU GPL v3 License
