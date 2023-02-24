@@ -28,9 +28,9 @@ or
 
 ## TODO
 
-- #8 Add pretty pictures
-- #9 Allow plugin to be used offline
-- #10 Create a layer based on ES query to a specific scenario, operation, or adversary
+- [#8](https://github.com/tehbooom/mitre_attack/issues/8) Add pretty pictures
+- [#9](https://github.com/tehbooom/mitre_attack/issues/9) Allow plugin to be used offline
+- [#10](https://github.com/tehbooom/mitre_attack/issues/10) Create a layer based on ES query to a specific scenario, operation, or adversary
 
 ## License
 
