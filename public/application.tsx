@@ -6,7 +6,7 @@ import { MitreAttackApp } from './components/app';
 
 export const renderApp = (
   { notifications, http }: CoreStart,
-  { navigation, data }: AppPluginStartDependencies,
+  { navigation, data, unifiedSearch }: AppPluginStartDependencies,
   { appBasePath, element }: AppMountParameters
 ) => {
   ReactDOM.render(
@@ -16,6 +16,7 @@ export const renderApp = (
       http={http}
       data={data}
       navigation={navigation}
+      unifiedSearch={unifiedSearch}
     />,
     element
   );
